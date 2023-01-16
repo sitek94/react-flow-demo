@@ -1,23 +1,33 @@
 import * as React from 'react'
 import ReactFlow, {
   Controls,
+  ControlButton,
   Background,
   applyNodeChanges,
   applyEdgeChanges,
 } from 'reactflow'
 import type {Node, Edge} from 'reactflow'
 
+function createNewNode() {
+  return {
+    // It's fine for demo purposes 🙈
+    id: Math.random().toString() + Date.now().toString(),
+    data: {label: 'New node'},
+    position: {x: 100, y: 100},
+  }
+}
+
 const initialNodes: Node[] = [
   {
     id: '1',
     data: {label: 'Hello'},
-    position: {x: 0, y: 0},
+    position: {x: 100, y: 200},
     type: 'input',
   },
   {
     id: '2',
     data: {label: 'World'},
-    position: {x: 100, y: 100},
+    position: {x: 100, y: 300},
   },
 ]
 
@@ -41,7 +51,13 @@ function Flow() {
       }
     >
       <Background />
-      <Controls />
+      <Controls>
+        <ControlButton onClick={() => setNodes([...nodes, createNewNode()])}>
+          <span role="img" aria-label="add node">
+            📦
+          </span>
+        </ControlButton>
+      </Controls>
     </ReactFlow>
   )
 }
