@@ -1,10 +1,13 @@
-import * as React from "react"
-import * as ReactDOM from "react-dom/client"
+import 'reactflow/dist/style.css'
+import './index.css'
 
-import { App } from "./App"
+import * as React from 'react'
+import * as ReactDOM from 'react-dom/client'
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+import {App} from './App'
+
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>
+  </React.StrictMode>,
 )

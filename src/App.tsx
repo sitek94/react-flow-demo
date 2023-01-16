@@ -1,3 +1,18 @@
+import ReactFlow, {Background, Controls} from 'reactflow'
+
+function Flow() {
+  return (
+    <ReactFlow>
+      <Background />
+      <Controls />
+    </ReactFlow>
+  )
+}
+
 export function App() {
-  return <h1>Heloo</h1>
+  return (
+    <div style={{height: '100vh'}}>
+      <Flow />
+    </div>
+  )
 }
