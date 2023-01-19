@@ -1,96 +1,93 @@
 import * as React from 'react'
+import type {Edge, Node} from 'reactflow'
 import ReactFlow, {
-  Controls,
-  ControlButton,
   Background,
-  applyNodeChanges,
-  applyEdgeChanges,
+  Controls,
+  MarkerType,
+  useEdgesState,
+  useNodesState,
 } from 'reactflow'
-import type {Node, Edge} from 'reactflow'
+import {BudgetNode} from './BudgetNode'
 
-type ValueNode = Node<{value: number; label: string}>
-
-const getDefaultProps = () => ({
-  id: getId(),
-  position: {x: 100, y: 100},
-})
-
-// It's fine for demo purposes 🙈
-const getId = () => Math.random().toString() + Date.now().toString()
-
-const createExpenseNode = ({
-  value,
-  position,
-}: {value: number} & Pick<Node, 'position'>): ValueNode => ({
-  ...getDefaultProps(),
-  data: {value, label: `- $${Math.abs(value)}`},
-  position,
-  style: {
-    // Red colors
-    background: '#f44336',
-    color: '#fff',
-    border: '1px solid #f44336',
-    fontWeight: 'bold',
-    fontSize: '1.2rem',
-    fontFamily: 'sans-serif',
-    width: '95px',
-  },
-})
+const nodeTypes = {
+  budgetNode: BudgetNode,
+}
 
 const initialNodes: Node[] = [
   {
-    id: '1',
-    data: {label: 'Hello'},
-    position: {x: 100, y: 200},
-    type: 'input',
+    id: 'budget',
+    type: 'budgetNode',
+    position: {x: 250, y: 300},
+    data: {
+      label: 'Budget',
+    },
+    style: {
+      border: '1px solid #555',
+    },
   },
   {
-    id: '2',
-    data: {label: 'World'},
-    position: {x: 100, y: 300},
+    id: 'expense',
+    position: {x: 150, y: 400},
+    data: {
+      label: '- $100',
+    },
+    style: {
+      border: '3px solid red',
+    },
   },
-  createExpenseNode({value: -100, position: {x: 300, y: 400}}),
-  createExpenseNode({value: -200, position: {x: 400, y: 400}}),
-  createExpenseNode({value: -200, position: {x: 200, y: 400}}),
+  {
+    id: 'income',
+    position: {x: 350, y: 200},
+    data: {
+      label: '+ $100',
+    },
+    style: {
+      border: '3px solid green',
+    },
+  },
 ]
 
 const initialEdges: Edge[] = [
-  {id: '1-2', source: '1', target: '2', label: 'to the', type: 'step'},
+  {
+    id: 'budget-expense',
+    source: 'budget',
+    target: 'expense',
+    markerEnd: {
+      type: MarkerType.Arrow,
+    },
+  },
+  {
+    id: 'budget-expense2',
+    source: 'budget',
+    target: 'expense2',
+    markerEnd: {
+      type: MarkerType.Arrow,
+    },
+  },
+  {
+    id: 'income-budget',
+    source: 'income',
+    target: 'budget',
+    markerEnd: {
+      type: MarkerType.Arrow,
+    },
+  },
 ]
 
 function Flow() {
-  const [nodes, setNodes] = React.useState(initialNodes)
-  const [edges, setEdges] = React.useState(initialEdges)
+  const [nodes, , onNodesChange] = useNodesState(initialNodes)
+  const [edges, , onEdgesChange] = useEdgesState(initialEdges)
 
   return (
     <ReactFlow
       nodes={nodes}
-      onNodesChange={changes =>
-        setNodes(nodes => applyNodeChanges(changes, nodes))
-      }
       edges={edges}
-      onEdgesChange={changes =>
-        setEdges(edges => applyEdgeChanges(changes, edges))
-      }
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      nodeTypes={nodeTypes}
     >
       <Background />
-      <Controls>
-        <ControlButton
-          onClick={() =>
-            setNodes([
-              ...nodes,
-              createExpenseNode({
-                value: 100,
-                position: {x: 300, y: 300},
-              }),
-            ])
-          }
-        >
-          <span role="img" aria-label="add node">
-            📦
-          </span>
-        </ControlButton>
-      </Controls>
+      <Controls />
     </ReactFlow>
   )
 }
