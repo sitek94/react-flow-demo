@@ -7,16 +7,10 @@ import ReactFlow, {
   useEdgesState,
   useNodesState,
 } from 'reactflow'
-import {BudgetNode} from './BudgetNode'
-
-const nodeTypes = {
-  budgetNode: BudgetNode,
-}
 
 const initialNodes: Node[] = [
   {
     id: 'budget',
-    type: 'budgetNode',
     position: {x: 250, y: 300},
     data: {
       label: 'Budget',
@@ -27,7 +21,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'expense',
-    position: {x: 150, y: 400},
+    position: {x: 180, y: 450},
     data: {
       label: '- $100',
     },
@@ -37,7 +31,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'income',
-    position: {x: 350, y: 200},
+    position: {x: 220, y: 150},
     data: {
       label: '+ $100',
     },
@@ -54,14 +48,13 @@ const initialEdges: Edge[] = [
     target: 'expense',
     markerEnd: {
       type: MarkerType.Arrow,
+      width: 20,
+      height: 20,
+      color: 'red',
     },
-  },
-  {
-    id: 'budget-expense2',
-    source: 'budget',
-    target: 'expense2',
-    markerEnd: {
-      type: MarkerType.Arrow,
+    style: {
+      strokeWidth: 2,
+      stroke: 'red',
     },
   },
   {
@@ -70,6 +63,13 @@ const initialEdges: Edge[] = [
     target: 'budget',
     markerEnd: {
       type: MarkerType.Arrow,
+      width: 20,
+      height: 20,
+      color: 'green',
+    },
+    style: {
+      strokeWidth: 2,
+      stroke: 'green',
     },
   },
 ]
@@ -84,7 +84,6 @@ function Flow() {
       edges={edges}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
-      nodeTypes={nodeTypes}
     >
       <Background />
       <Controls />
