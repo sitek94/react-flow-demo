@@ -8,14 +8,34 @@ import ReactFlow, {
 } from 'reactflow'
 import type {Node, Edge} from 'reactflow'
 
-function createNewNode() {
-  return {
-    // It's fine for demo purposes 🙈
-    id: Math.random().toString() + Date.now().toString(),
-    data: {label: 'New node'},
-    position: {x: 100, y: 100},
-  }
-}
+type ValueNode = Node<{value: number; label: string}>
+
+const getDefaultProps = () => ({
+  id: getId(),
+  position: {x: 100, y: 100},
+})
+
+// It's fine for demo purposes 🙈
+const getId = () => Math.random().toString() + Date.now().toString()
+
+const createExpenseNode = ({
+  value,
+  position,
+}: {value: number} & Pick<Node, 'position'>): ValueNode => ({
+  ...getDefaultProps(),
+  data: {value, label: `- $${Math.abs(value)}`},
+  position,
+  style: {
+    // Red colors
+    background: '#f44336',
+    color: '#fff',
+    border: '1px solid #f44336',
+    fontWeight: 'bold',
+    fontSize: '1.2rem',
+    fontFamily: 'sans-serif',
+    width: '95px',
+  },
+})
 
 const initialNodes: Node[] = [
   {
@@ -29,6 +49,9 @@ const initialNodes: Node[] = [
     data: {label: 'World'},
     position: {x: 100, y: 300},
   },
+  createExpenseNode({value: -100, position: {x: 300, y: 400}}),
+  createExpenseNode({value: -200, position: {x: 400, y: 400}}),
+  createExpenseNode({value: -200, position: {x: 200, y: 400}}),
 ]
 
 const initialEdges: Edge[] = [
@@ -52,7 +75,17 @@ function Flow() {
     >
       <Background />
       <Controls>
-        <ControlButton onClick={() => setNodes([...nodes, createNewNode()])}>
+        <ControlButton
+          onClick={() =>
+            setNodes([
+              ...nodes,
+              createExpenseNode({
+                value: 100,
+                position: {x: 300, y: 300},
+              }),
+            ])
+          }
+        >
           <span role="img" aria-label="add node">
             📦
           </span>
