@@ -6,6 +6,14 @@ import ReactFlow, {
   useNodesState,
 } from 'reactflow'
 import {initialEdges, initialNodes} from './initialElements'
+import {BudgetNode} from './BudgetNode'
+import {TransactionNode} from './TransactionNode'
+
+const nodeTypes = {
+  budget: BudgetNode,
+  income: props => <TransactionNode {...props} type="income" />,
+  expense: props => <TransactionNode {...props} type="expense" />,
+}
 
 function Flow() {
   const [nodes, , onNodesChange] = useNodesState(initialNodes)
@@ -17,6 +25,7 @@ function Flow() {
       edges={edges}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
+      nodeTypes={nodeTypes}
     >
       <Background />
       <Controls />

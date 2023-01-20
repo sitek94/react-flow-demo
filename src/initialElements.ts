@@ -3,19 +3,18 @@ import {Edge, MarkerType, Node} from 'reactflow'
 export const initialNodes: Node[] = [
   {
     id: 'budget',
+    type: 'budget',
     position: {x: 250, y: 300},
     data: {
       label: 'Budget',
     },
-    style: {
-      border: '1px solid #555',
-    },
   },
   {
     id: 'expense',
+    type: 'expense',
     position: {x: 180, y: 450},
     data: {
-      label: '- $100',
+      amount: -100,
     },
     style: {
       border: '3px solid red',
@@ -23,9 +22,10 @@ export const initialNodes: Node[] = [
   },
   {
     id: 'income',
+    type: 'income',
     position: {x: 220, y: 150},
     data: {
-      label: '+ $100',
+      amount: 100,
     },
     style: {
       border: '3px solid green',
