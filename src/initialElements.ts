@@ -1,10 +1,6 @@
 import colors from 'tailwindcss/colors'
 import {MarkerType, Node} from 'reactflow'
-
-export type BudgetNodeType = typeof budgetNode
-export type IncomeNodeType = ReturnType<typeof createIncomeNode>
-export type ExpenseNodeType = ReturnType<typeof createExpenseNode>
-export type NodeType = BudgetNodeType | IncomeNodeType | ExpenseNodeType
+import {createExpenseNode, createIncomeNode} from './utils'
 
 let id = 0
 
@@ -17,49 +13,23 @@ const budgetNode = {
   },
 }
 
-export const createIncomeNode = (amount = 0) => ({
-  id: `income-${id++}`,
-  type: 'income' as const,
-  position: {x: 250, y: 25},
-  data: {
-    label: 'income',
-    amount,
-  },
-  style: {
-    width: 100,
-  },
-})
-
-export const createExpenseNode = (amount = 0) => ({
-  id: `expense-${id++}`,
-  type: 'expense' as const,
-  position: {x: 250, y: 500},
-  data: {
-    label: 'expense',
-    amount: -amount,
-  },
-  style: {
-    width: 100,
-  },
-})
-
-export const initialNodes: NodeType[] = [
+export const initialNodes: Node[] = [
   budgetNode,
-  {
-    ...createExpenseNode(200),
-    position: {x: 180, y: 450},
-  },
-  {
-    ...createIncomeNode(1000),
-    position: {x: 220, y: 150},
-  },
+  createIncomeNode({
+    amount: 1000,
+    position: {x: 100, y: 100},
+  }),
+  createExpenseNode({
+    amount: 500,
+    position: {x: 100, y: 500},
+  }),
 ]
 
 export const generateEdges = (nodes: Node[]) => {
   let edges = []
 
-  const incomeNodes = nodes.filter(node => node.type === 'income')
-  const expenseNodes = nodes.filter(node => node.type === 'expense')
+  const incomeNodes = nodes.filter(node => node.data.type === 'income')
+  const expenseNodes = nodes.filter(node => node.data.type === 'expense')
 
   for (const incomeNode of incomeNodes) {
     edges.push({

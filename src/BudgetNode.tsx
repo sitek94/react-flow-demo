@@ -1,13 +1,15 @@
 import {Handle, Position, useNodes} from 'reactflow'
-import {isTransactionNode} from './TransactionNode'
-import {NodeType} from './initialElements'
+import {TransactionData} from './utils'
 
 export function BudgetNode() {
-  const nodes = useNodes<NodeType>()
+  const nodes = useNodes<TransactionData>()
 
   const budget = nodes.reduce((acc, node) => {
-    if (isTransactionNode(node)) {
+    if (node.data.type === 'income') {
       acc += node.data.amount
+    }
+    if (node.data.type === 'expense') {
+      acc -= node.data.amount
     }
     return acc
   }, 0)

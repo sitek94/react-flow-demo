@@ -1,17 +1,9 @@
-import {Handle, Node, Position, useReactFlow} from 'reactflow'
+import {Handle, Position, useReactFlow, NodeProps} from 'reactflow'
 import React from 'react'
 import clsx from 'clsx'
+import {TransactionData} from './utils'
 
-export interface TransactionNodeProps extends Node {
-  type: 'income' | 'expense'
-  data: {
-    amount: number
-  }
-}
-
-export const isTransactionNode = (node: Node): node is TransactionNodeProps =>
-  node.type === 'income' || node.type === 'expense'
-export function TransactionNode({id, type, data}: TransactionNodeProps) {
+export function TransactionNode({id, data}: NodeProps<TransactionData>) {
   const {setNodes} = useReactFlow()
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,8 +18,8 @@ export function TransactionNode({id, type, data}: TransactionNodeProps) {
     )
   }
 
-  const isIncome = type === 'income'
-  const isExpense = type === 'expense'
+  const isIncome = data.type === 'income'
+  const isExpense = data.type === 'expense'
 
   return (
     <>

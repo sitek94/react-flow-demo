@@ -1,6 +1,6 @@
 import type {Node} from 'reactflow'
 import {Panel} from 'reactflow'
-import {createExpenseNode, createIncomeNode} from './initialElements'
+import {createExpenseNode, createIncomeNode} from './utils'
 
 export function AddTransactionsPanel({
   addNode,

@@ -13,8 +13,7 @@ import {AddTransactionsPanel} from './AddTransactionsPanel'
 
 const nodeTypes = {
   budget: BudgetNode,
-  income: props => <TransactionNode {...props} type="income" />,
-  expense: props => <TransactionNode {...props} type="expense" />,
+  transaction: TransactionNode,
 }
 
 function Flow() {
