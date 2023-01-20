@@ -1,3 +1,12 @@
-body {
-  margin: 0;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.react-flow__node-income {
+  border: 5px solid green;
 }
+
+.react-flow__node-expense {
+  border: 5px solid red;
+}
+
