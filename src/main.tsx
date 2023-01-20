@@ -1,4 +1,4 @@
-import 'reactflow/dist/style.css'
+import 'reactflow/dist/base.css'
 import './index.css'
 
 import * as React from 'react'

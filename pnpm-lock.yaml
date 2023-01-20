@@ -6,6 +6,7 @@ specifiers:
   '@types/react-dom': ^18.0.9
   '@vitejs/plugin-react': ^3.0.1
   autoprefixer: ^10.4.13
+  clsx: ^1.2.1
   postcss: ^8.4.21
   prettier: ^2.8.3
   react: ^18.2.0
@@ -16,6 +17,7 @@ specifiers:
   vite: ^4.0.0
 
 dependencies:
+  clsx: 1.2.1
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   reactflow: 11.4.2_biqbaboplfbrettd7655fr4n2y
@@ -939,6 +941,11 @@ packages:
 
   /classcat/5.0.4:
     resolution: {integrity: sha512-sbpkOw6z413p+HDGcBENe498WM9woqWHiJxCq7nvmxe9WmrUmqfAcxpIwAiMtM5Q3AhYkzXcNQHqsWq0mND51g==}
+    dev: false
+
+  /clsx/1.2.1:
+    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
+    engines: {node: '>=6'}
     dev: false
 
   /color-convert/1.9.3:

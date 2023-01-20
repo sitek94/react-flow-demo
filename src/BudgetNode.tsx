@@ -1,9 +1,9 @@
 import {Handle, Position, useNodes} from 'reactflow'
-import React from 'react'
 import {isTransactionNode} from './TransactionNode'
+import {NodeType} from './initialElements'
 
 export function BudgetNode() {
-  const nodes = useNodes()
+  const nodes = useNodes<NodeType>()
 
   const budget = nodes.reduce((acc, node) => {
     if (isTransactionNode(node)) {
@@ -13,18 +13,10 @@ export function BudgetNode() {
   }, 0)
 
   return (
-    <div
-      style={{
-        textAlign: 'right',
-        width: 150,
-        height: 20,
-        padding: 10,
-        border: '1px solid #aaa',
-      }}
-    >
-      <Handle type="source" position={Position.Bottom} />
+    <div className="p-1 w-[100px] text-right border-2 rounded-md shadow text-gray-500 bg-gray-50 border-gray-500">
+      <Handle type="source" position={Position.Bottom} className="invisible" />
       <div>{budget}</div>
-      <Handle type="target" position={Position.Top} />
+      <Handle type="target" position={Position.Top} className="invisible" />
     </div>
   )
 }

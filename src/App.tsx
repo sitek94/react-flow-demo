@@ -2,12 +2,14 @@ import * as React from 'react'
 import ReactFlow, {
   Background,
   Controls,
+  Node,
   useEdgesState,
   useNodesState,
 } from 'reactflow'
-import {initialEdges, initialNodes} from './initialElements'
+import {generateEdges, initialEdges, initialNodes} from './initialElements'
 import {BudgetNode} from './BudgetNode'
 import {TransactionNode} from './TransactionNode'
+import {AddTransactionsPanel} from './AddTransactionsPanel'
 
 const nodeTypes = {
   budget: BudgetNode,
@@ -16,8 +18,15 @@ const nodeTypes = {
 }
 
 function Flow() {
-  const [nodes, , onNodesChange] = useNodesState(initialNodes)
-  const [edges, , onEdgesChange] = useEdgesState(initialEdges)
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
+
+  const addNode = (node: Node) => {
+    const newNodes = [...nodes, node]
+
+    setNodes(newNodes)
+    setEdges(generateEdges(newNodes))
+  }
 
   return (
     <ReactFlow
@@ -27,6 +36,7 @@ function Flow() {
       onEdgesChange={onEdgesChange}
       nodeTypes={nodeTypes}
     >
+      <AddTransactionsPanel addNode={addNode} />
       <Background />
       <Controls />
     </ReactFlow>

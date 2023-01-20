@@ -1,4 +1,10 @@
+import colors from 'tailwindcss/colors'
 import {MarkerType, Node} from 'reactflow'
+
+export type BudgetNodeType = typeof budgetNode
+export type IncomeNodeType = ReturnType<typeof createIncomeNode>
+export type ExpenseNodeType = ReturnType<typeof createExpenseNode>
+export type NodeType = BudgetNodeType | IncomeNodeType | ExpenseNodeType
 
 let id = 0
 
@@ -11,25 +17,33 @@ const budgetNode = {
   },
 }
 
-const createIncomeNode = (amount = 0) => ({
+export const createIncomeNode = (amount = 0) => ({
   id: `income-${id++}`,
   type: 'income' as const,
   position: {x: 250, y: 25},
   data: {
+    label: 'income',
     amount,
+  },
+  style: {
+    width: 100,
   },
 })
 
-const createExpenseNode = (amount = 0) => ({
+export const createExpenseNode = (amount = 0) => ({
   id: `expense-${id++}`,
   type: 'expense' as const,
   position: {x: 250, y: 500},
   data: {
-    amount,
+    label: 'expense',
+    amount: -amount,
+  },
+  style: {
+    width: 100,
   },
 })
 
-export const initialNodes = [
+export const initialNodes: NodeType[] = [
   budgetNode,
   {
     ...createExpenseNode(200),
@@ -41,7 +55,7 @@ export const initialNodes = [
   },
 ]
 
-const generateEdges = (nodes: Node[]) => {
+export const generateEdges = (nodes: Node[]) => {
   let edges = []
 
   const incomeNodes = nodes.filter(node => node.type === 'income')
@@ -53,14 +67,14 @@ const generateEdges = (nodes: Node[]) => {
       source: incomeNode.id,
       target: budgetNode.id,
       markerEnd: {
-        type: MarkerType.Arrow,
-        width: 20,
-        height: 20,
-        color: 'green',
+        type: MarkerType.ArrowClosed,
+        width: 10,
+        height: 10,
+        color: colors.green[500],
       },
       style: {
         strokeWidth: 2,
-        stroke: 'green',
+        stroke: colors.green[500],
       },
     })
   }
@@ -71,14 +85,14 @@ const generateEdges = (nodes: Node[]) => {
       source: budgetNode.id,
       target: expenseNode.id,
       markerEnd: {
-        type: MarkerType.Arrow,
-        width: 20,
-        height: 20,
-        color: 'red',
+        type: MarkerType.ArrowClosed,
+        width: 10,
+        height: 10,
+        color: colors.red[500],
       },
       style: {
         strokeWidth: 2,
-        stroke: 'red',
+        stroke: colors.red[500],
       },
     })
   }

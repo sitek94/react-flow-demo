@@ -1,5 +1,6 @@
 import {Handle, Node, Position, useReactFlow} from 'reactflow'
 import React from 'react'
+import clsx from 'clsx'
 
 export interface TransactionNodeProps extends Node {
   type: 'income' | 'expense'
@@ -25,22 +26,32 @@ export function TransactionNode({id, type, data}: TransactionNodeProps) {
     )
   }
 
-  return (
-    <div
-      style={{
-        textAlign: 'right',
-        width: 150,
-        height: 20,
-        padding: 10,
-        border: '1px solid #aaa',
-        display: 'flex',
-        gap: 2,
-      }}
-    >
-      <input type="number" defaultValue={data.amount} onChange={onChange} />
+  const isIncome = type === 'income'
+  const isExpense = type === 'expense'
 
-      {type === 'income' && <Handle type="source" position={Position.Bottom} />}
-      {type === 'expense' && <Handle type="target" position={Position.Top} />}
-    </div>
+  return (
+    <>
+      <input
+        className={clsx(
+          'w-full text-right border-2 rounded-md shadow focus:outline-none',
+          isIncome && 'text-green-500 bg-green-50 border-green-500',
+          isExpense && 'text-red-500 bg-red-50 border-red-500',
+        )}
+        type="number"
+        defaultValue={data.amount}
+        onChange={onChange}
+      />
+
+      {isIncome && (
+        <Handle
+          type="source"
+          position={Position.Bottom}
+          className="invisible"
+        />
+      )}
+      {isExpense && (
+        <Handle type="target" position={Position.Top} className="invisible" />
+      )}
+    </>
   )
 }
